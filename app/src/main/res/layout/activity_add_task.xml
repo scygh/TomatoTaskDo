@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.AddTaskActivity"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#00CFA6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="任务制定"
+            android:textColor="@color/FFFFFF"
+            />
+        <ImageView
+            android:id="@+id/iv_add_ok"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="10dp"
+            android:src="@drawable/yes" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="任务详情或描述"
+        android:textSize="16dp"
+        android:textColor="#888888"
+        android:background="#F2F2F2"
+        />
+    <EditText
+        android:id="@+id/et_description"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@null"
+        android:hint="请描述您想制定的任务或想给自己的话"
+        android:textColorHint="#888888"
+        android:textSize="14dp"
+        android:gravity="top"
+        android:padding="15dp"
+    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="优先级"
+        android:textSize="16dp"
+        android:textColor="#888888"
+        android:background="#F2F2F2"
+        />
+    <EditText
+        android:id="@+id/et_priority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="请描述您想制定的任务的优先级别"
+        android:textColorHint="#888888"
+        android:textSize="14dp"
+        android:gravity="top"
+        android:padding="15dp"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F2F2">
+
+    </FrameLayout>
+
+</LinearLayout>

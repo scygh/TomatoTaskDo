@@ -6,6 +6,7 @@ import com.scy.android.tomatotaskdo.conpoment.constants.ConstValues;
 import com.scy.android.tomatotaskdo.conpoment.utils.SpUtil;
 import com.scy.android.tomatotaskdo.conpoment.utils.TimeUtil;
 import com.scy.android.tomatotaskdo.entity.FocusTime;
+import com.scy.android.tomatotaskdo.entity.Task;
 import com.scy.android.tomatotaskdo.entity.User;
 
 import org.litepal.LitePal;
@@ -49,5 +50,10 @@ public class DbRequest {
     public static String getHeaderImg(Context context) {
         User user = getCurrentUser(context);
         return user.getHeaderImageUri();
+    }
+
+    public static List<Task> getCurrentUserTasks(Context context, User user) {
+        List<Task> tasks = user.getTasks();
+        return tasks;
     }
 }

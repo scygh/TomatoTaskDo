@@ -23,6 +23,7 @@ import com.scy.android.tomatotaskdo.R;
 import com.scy.android.tomatotaskdo.conpoment.constants.ConstValues;
 import com.scy.android.tomatotaskdo.conpoment.utils.SpUtil;
 import com.scy.android.tomatotaskdo.conpoment.utils.ToastHelper;
+import com.scy.android.tomatotaskdo.request.Apis;
 import com.scy.android.tomatotaskdo.request.DbRequest;
 import com.scy.android.tomatotaskdo.view.activity.FocusRecordActivity;
 import com.scy.android.tomatotaskdo.view.activity.MyTaskActivity;
@@ -130,11 +131,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     }
 
-    public boolean checkLogin() {
-        Boolean isLogin = SpUtil.getIsLogin(mActivity, ConstValues.LOGIN);
-        return isLogin;
-    }
-
     @Override
     public View initView() {
         View rootView = View.inflate(mActivity, R.layout.fragment_mine, null);
@@ -203,7 +199,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-        if (checkLogin()) {
+        if (Apis.checkLogin(mActivity)) {
             String username = DbRequest.getCurrentUser(mActivity).getUsername();
             tvMineName.setText(username);
             headerImg.setImageURI(DbRequest.getHeaderImg(mActivity));

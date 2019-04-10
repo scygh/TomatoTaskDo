@@ -33,6 +33,7 @@ import com.scy.android.tomatotaskdo.conpoment.utils.TimeUtil;
 import com.scy.android.tomatotaskdo.conpoment.utils.ToastHelper;
 import com.scy.android.tomatotaskdo.entity.FocusTime;
 import com.scy.android.tomatotaskdo.entity.User;
+import com.scy.android.tomatotaskdo.request.Apis;
 import com.scy.android.tomatotaskdo.request.DbRequest;
 import com.scy.android.tomatotaskdo.service.TimerService;
 import com.scy.android.tomatotaskdo.view.dialog.AddViewDialog;
@@ -113,7 +114,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                mLoadButton.isTiming();
                             }
                         } else if (i == 2) {
-                            if (!checkLogin()) {
+                            if (!Apis.checkLogin(MainActivity.this)) {
                                 ToastHelper.showToast(MainActivity.this, "请先登录", Toast.LENGTH_SHORT);
                                 startActivity(LoginActivity.getIntent(MainActivity.this));
                                 return true;
@@ -124,11 +125,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 })
                 .build();
         mainNavigationBar.setAddViewLayout(createTaskView());
-    }
-
-    public boolean checkLogin() {
-        Boolean isLogin = SpUtil.getIsLogin(MainActivity.this, ConstValues.LOGIN);
-        return isLogin;
     }
 
     private View createTaskView() {
@@ -283,7 +279,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     public void initAddViewData () {
-        if (checkLogin()) {
+        if (Apis.checkLogin(this)) {
             currentUser = DbRequest.getCurrentUser(this);
             focusTime = DbRequest.getCurrentUserTodayFocusTime(this, currentUser);
             todayTime.setText(""+ focusTime);

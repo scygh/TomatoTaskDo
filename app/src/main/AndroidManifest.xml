@@ -2,13 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.scy.android.tomatotaskdo">
 
-
-    <!--调用相机权限-->
+    <!-- 调用相机权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!--读写内存块权限-->
+    <!-- 读写内存块权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".app.MainApplication"
@@ -41,7 +39,7 @@
         <activity android:name=".view.activity.RankActivity" />
         <activity android:name=".view.activity.WhyActivity" />
         <activity android:name=".view.activity.MyTaskActivity" />
-        <activity android:name=".view.activity.FocusRecordActivity"></activity>
+        <activity android:name=".view.activity.FocusRecordActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -52,6 +50,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".view.activity.AddTaskActivity"></activity>
     </application>
 
 </manifest>

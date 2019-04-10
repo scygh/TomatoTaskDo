@@ -46,4 +46,10 @@ public class TimeUtil {
         return formatter.format(curDate);
     }
 
+    public static String formatTaskTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
+        Date curDate = new Date(System.currentTimeMillis());
+        return formatter.format(curDate);
+    }
+
 }

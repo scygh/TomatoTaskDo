@@ -14,15 +14,20 @@ public class Task extends LitePalSupport{
 
     private long id;
     private String tid;
-    private String tno;
+    private String tDescription;
     private String startTime;
-    private String endTime;
     private String isFinished;
+    private String priority;
     private User user;
 
     public Task() {
        super();
        tid = UUID.randomUUID().toString();
+    }
+
+    public Task(String tDescription, String priority) {
+        this.tDescription = tDescription;
+        this.priority = priority;
     }
 
     public long getId() {
@@ -41,12 +46,12 @@ public class Task extends LitePalSupport{
         this.tid = tid;
     }
 
-    public String getTno() {
-        return tno;
+    public String gettDescription() {
+        return tDescription;
     }
 
-    public void setTno(String tno) {
-        this.tno = tno;
+    public void settDescription(String tDescription) {
+        this.tDescription = tDescription;
     }
 
     public String getStartTime() {
@@ -57,20 +62,20 @@ public class Task extends LitePalSupport{
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
     public String getIsFinished() {
         return isFinished;
     }
 
     public void setIsFinished(String isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public User getUser() {

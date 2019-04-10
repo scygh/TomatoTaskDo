@@ -21,5 +21,6 @@ public class ConstValues {
     //更换头像
     public static final int ACTION_CAMERA = 1;
     public static final int ACTION_PICK = 2;
+    public static final int ACTION_ADD = 2;
 
 }
