@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="220px"
+        android:layout_height="360px"
+        android:background="@drawable/pop_bg"
+        android:orientation="vertical"
+        > <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/one"
+        android:layout_width="match_parent"
+        android:layout_height="115px"
+        android:textSize="15sp"
+        android:text="拍照"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        /> <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="#ccc"
+        /> <TextView
+        android:id="@+id/two"
+        android:layout_width="match_parent"
+        android:layout_height="115px"
+        android:textSize="15sp"
+        android:text="相册选择"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        /> <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ccc"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        /> <TextView
+        android:id="@+id/three"
+        android:layout_width="match_parent"
+        android:layout_height="115px"
+        android:textSize="15sp"
+        android:text="取消"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        /> </LinearLayout>
+
+</LinearLayout>
