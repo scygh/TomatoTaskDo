@@ -3,6 +3,7 @@ package com.scy.android.tomatotaskdo.app;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.mob.MobSDK;
 import com.scy.android.tomatotaskdo.R;
 
 import org.litepal.LitePal;
@@ -27,7 +28,7 @@ public class MainApplication extends Application {
         //数据库初始化
         LitePal.initialize(this);
         Fresco.initialize(this);
-
+        MobSDK.init(this);
 
     }
 }

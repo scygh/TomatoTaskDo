@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.scy.android.tomatotaskdo.R;
+import com.scy.android.tomatotaskdo.conpoment.utils.TimeUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +40,7 @@ public class DatePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Date date = (Date)getArguments().getSerializable(ARG_DATE);
+        final Date date = (Date)getArguments().getSerializable(ARG_DATE);
            Calendar calendar = Calendar.getInstance();
            calendar.setTime(date);
            int year = calendar.get(Calendar.YEAR);
@@ -59,6 +60,7 @@ public class DatePickerFragment extends DialogFragment {
                        int day =mDatePicker.getDayOfMonth();
                         Date date1 = new GregorianCalendar(year,month,day).getTime();
                        //sendResult(Activity.RESULT_OK,date1);
+                        mlistener.onDialogClick(date1);
                     }
                 })
                 .create();
@@ -72,4 +74,12 @@ public class DatePickerFragment extends DialogFragment {
         intent.putExtra(EXTRA_DATE,date);
         getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,intent);
     }*/
+
+    private OnDialogListener mlistener;
+    public interface OnDialogListener {
+        void onDialogClick(Date date);
+    }
+    public void setOnDialogListener(OnDialogListener dialogListener){
+        this.mlistener = dialogListener;
+    }
 }

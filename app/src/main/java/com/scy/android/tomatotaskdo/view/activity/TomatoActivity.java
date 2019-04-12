@@ -30,8 +30,6 @@ import butterknife.ButterKnife;
 public class TomatoActivity extends BaseActivity {
 
     private static final String TAG = "TomatoActivity";
-    @BindView(R.id.tomato_date)
-    ImageView tomatoDate;
     @BindView(R.id.tomato_iv_why)
     ImageView tomatoIvWhy;
     @BindView(R.id.tomato_sum_time)
@@ -94,14 +92,7 @@ public class TomatoActivity extends BaseActivity {
                 TomatowhyDialog.showDialog(TomatoActivity.this);
             }
         });
-        tomatoDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                DatePickerFragment datePickerFragment = DatePickerFragment.newInstance(new Date());
-                datePickerFragment.show(fragmentManager, "date");
-            }
-        });
+
 
         initdata(user);
         customView1.setXValues(xValues);

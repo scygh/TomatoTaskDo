@@ -12,6 +12,7 @@ import com.scy.android.tomatotaskdo.entity.User;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -70,6 +71,28 @@ public class DbRequest {
     public static List<Task> getCurrentUserTasks(Context context, User user) {
         List<Task> tasks = user.getTasks();
         return tasks;
+    }
+
+    public static List<Task> getCurrentUserTodayTasks(Context context, User user) {
+        List<Task> tasks = user.getTasks();
+        List<Task> tasks1 = new ArrayList<>();
+        for (Task task: tasks) {
+            if (task.getStartTime().equals(TimeUtil.formatTaskTime())) {
+                tasks1.add(task);
+            }
+        }
+        return tasks1;
+    }
+
+    public static List<Task> getCurrentUserSelectdayTasks(Context context, User user,String date) {
+        List<Task> tasks = user.getTasks();
+        List<Task> tasks2 = new ArrayList<>();
+        for (Task task: tasks) {
+            if (task.getStartTime().equals(date)) {
+                tasks2.add(task);
+            }
+        }
+        return tasks2;
     }
 
     public static List<Task> getCurrentUserTodayUnFinishTasks(Context context, User user) {

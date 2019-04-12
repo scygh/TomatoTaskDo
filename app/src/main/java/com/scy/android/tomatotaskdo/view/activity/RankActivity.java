@@ -29,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class RankActivity extends BaseActivity {
 
@@ -43,6 +44,8 @@ public class RankActivity extends BaseActivity {
     @BindView(R.id.rank_rv)
     RecyclerView rankRv;
     private RankRvAdapter mRankRvAdapter;
+    private User user;
+    private String imguri;
 
     public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, RankActivity.class);
@@ -57,6 +60,7 @@ public class RankActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        user = DbRequest.getCurrentUser(this);
         MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(this, false);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rankRv.setLayoutManager(linearLayoutManager);
@@ -69,8 +73,13 @@ public class RankActivity extends BaseActivity {
         User firstUser = sortUsers.get(0);
         try {
             rankHeaderText.setText(firstUser.getUsername()+"占领了封面");
-            rankHeaderImg.setImageURI(Uri.parse(firstUser.getHeaderImageUri()));
-            rankHeaderRl.setBackground(Drawable.createFromStream(getContentResolver().openInputStream(Uri.parse(firstUser.getHeaderImageUri())),null));
+            imguri = firstUser.getHeaderImageUri();
+
+            if (imguri != null) {
+                Uri uri = Uri.parse(imguri);
+                rankHeaderImg.setImageURI(uri);
+                rankHeaderRl.setBackground(Drawable.createFromStream(getContentResolver().openInputStream(uri),null));
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -86,8 +95,31 @@ public class RankActivity extends BaseActivity {
             }
         });
 
+        rankIvShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showShare();
+            }
+        });
+
     }
 
-
-
+    private void showShare() {
+        OnekeyShare oks = new OnekeyShare(); //关闭sso授权 oks.disableSSOWhenAuthorize();
+        // title标题，微信、QQ和QQ空间等平台使用
+        oks.setTitle("番茄任务");
+        // titleUrl QQ和QQ空间跳转链接
+        oks.setTitleUrl("http://sharesdk.cn");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("我今天在番茄任务专注了" + DbRequest.getCurrentUserTodayFocusTime(this, user) + "分钟");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath(imguri);//确保SDcard下面存在此张图片
+        // url在微信、微博，Facebook等平台中使用
+        oks.setUrl("http://sharesdk.cn");
+        // comment是我对这条分享的评论，仅在人人网使用
+        oks.setComment("很认真");
+        // 启动分享GUI
+        oks.show(this);
+    }
 }
+

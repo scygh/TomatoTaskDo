@@ -57,10 +57,9 @@ public class TimeUtil {
         Date curDate = new Date(System.currentTimeMillis());
         return formatter.format(curDate);
     }
-    public static String formatTomatoTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日");
-        Date curDate = new Date(System.currentTimeMillis());
-        return formatter.format(curDate);
+    public static String formatMyTaskTime(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
+        return formatter.format(date);
     }
 
 }
