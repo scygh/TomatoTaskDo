@@ -41,5 +41,9 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(MainActivity.getIntent(SettingsActivity.this));
+    }
 
 }

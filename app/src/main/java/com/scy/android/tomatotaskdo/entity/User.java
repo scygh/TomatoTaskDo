@@ -13,7 +13,7 @@ import java.util.UUID;
  * created by scy on 2019/4/8 09:31
  * 邮箱：1797484636@qq.com
  */
-public class User extends LitePalSupport{
+public class User extends LitePalSupport {
 
     private long id;
     private String uid;
@@ -27,9 +27,12 @@ public class User extends LitePalSupport{
     private List<FocusTime> mFocusTimes = new ArrayList<>();
     private String headerImageUri;
 
+    private int dz;
+
     public User() {
         super();
         uid = UUID.randomUUID().toString();
+        dz = 0;
     }
 
     public long getId() {
@@ -110,5 +113,13 @@ public class User extends LitePalSupport{
 
     public void setHeaderImageUri(String headerImageUri) {
         this.headerImageUri = headerImageUri;
+    }
+
+    public int getDz() {
+        return dz;
+    }
+
+    public void setDz(int dz) {
+        this.dz = dz;
     }
 }

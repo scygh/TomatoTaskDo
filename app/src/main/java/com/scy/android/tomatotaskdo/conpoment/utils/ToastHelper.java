@@ -2,7 +2,14 @@ package com.scy.android.tomatotaskdo.conpoment.utils;
 
 import android.content.Context;
 
+import android.os.Looper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.scy.android.tomatotaskdo.R;
+
 /**
  * 沈程阳
  * created by scy on 2019/4/3 14:44
@@ -18,14 +25,23 @@ public class ToastHelper {
      * @param duration 持续时间（0：短；1：长）
      */
     public static void showToast(Context context, String text, int duration) {
-        if (mToast == null) {
-            mToast = Toast.makeText(context, text, duration);
-        } else {
-            mToast.setText(text);
+        try {
+            View view = LayoutInflater.from(context).inflate(R.layout.view_toast, null, false);
+            TextView textView = view.findViewById(R.id.tv_issue);
+            textView.setText(text);
+            if (mToast == null) {
+                mToast = new Toast(context);
+            } else {
+                textView.setText(text);
+            }
             mToast.setDuration(duration);
+            mToast.setView(view);
+            mToast.show();
+        } catch (Exception e) {
+            Looper.prepare();
+            Toast.makeText(context, text, duration).show();
+            Looper.loop();
         }
-
-        mToast.show();
     }
 
     /**

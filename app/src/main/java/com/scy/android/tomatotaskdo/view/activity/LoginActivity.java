@@ -165,11 +165,9 @@ public class LoginActivity extends AppCompatActivity {
             for(User user : users) {
                 if (mEmail.equals(user.getUsername())) {
                     if (mPassword.equals(user.getPassword())) {
-                        ToastHelper.showToast(LoginActivity.this,"登陆成功", Toast.LENGTH_SHORT);
                         SpUtil.setCurrentUser(LoginActivity.this, ConstValues.CURRENT_USER_ID, user.getId());
                         return true;
                     } else {
-                        ToastHelper.showToast(LoginActivity.this,"密码错误", Toast.LENGTH_SHORT);
                         return false;
                     }
                 }
@@ -184,8 +182,6 @@ public class LoginActivity extends AppCompatActivity {
             focusTime.setDate(TimeUtil.formatFocusTime());
             focusTime.setUser(register);
             focusTime.save();
-
-            ToastHelper.showToast(LoginActivity.this,"注册成功", Toast.LENGTH_SHORT);
             SpUtil.setCurrentUser(LoginActivity.this, ConstValues.CURRENT_USER_ID, register.getId());
             return true;
         }
@@ -195,8 +191,8 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             if (success) {
                 SpUtil.setIsLogin(LoginActivity.this,ConstValues.LOGIN, true);
-                startActivity(MainActivity.getIntent(LoginActivity.this));
                 finish();
+                startActivity(MainActivity.getIntent(LoginActivity.this));
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

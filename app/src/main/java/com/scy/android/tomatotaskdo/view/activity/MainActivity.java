@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -66,6 +67,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private  Handler mHandler = new Handler();
     private MyBroadcastReceiver mMyBroadcastReceiver;
     private LocalBroadcastManager mLocalBroadcastManager;
+    private TaskFragment mTaskFragment = new TaskFragment();
+    private MineFragment mMineFragment = new MineFragment();
 
     public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -93,8 +96,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
         //配置底部导航
-        mFragments.add(new TaskFragment());
-        mFragments.add(new MineFragment());
+        mFragments.add(mTaskFragment);
+        mFragments.add(mMineFragment);
         mainNavigationBar.titleItems(tabText)
                 .normalIconItems(normalIcon)
                 .selectIconItems(selectedIcon)
@@ -125,6 +128,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 })
                 .build();
         mainNavigationBar.setAddViewLayout(createTaskView());
+
+        mainNavigationBar.selectTab(0);
     }
 
     private View createTaskView() {
@@ -321,5 +326,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         return super.onKeyUp(keyCode, event);
     }
-
 }

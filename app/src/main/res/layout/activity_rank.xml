@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".view.activity.RankActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
-</android.support.constraint.ConstraintLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#00CFA6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="排行榜"
+            android:textColor="@color/FFFFFF"
+            />
+        <ImageView
+            android:id="@+id/rank_iv_share"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="centerInside"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="10dp"
+            android:src="@drawable/article_share" />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/rank_header_rl"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:padding="10dp"
+        android:background="#CCC">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/rank_header_img"
+            app:roundAsCircle="true"
+            app:roundedCornerRadius="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/fcs_icon_mine_head_login"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:id="@+id/rank_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="沈程阳占领了封面"
+            android:textColor="@color/FFFFFF"
+            android:layout_marginTop="30dp"
+            />
+    </FrameLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rank_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
+</ScrollView>

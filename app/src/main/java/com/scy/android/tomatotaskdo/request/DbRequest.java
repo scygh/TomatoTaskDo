@@ -11,6 +11,7 @@ import com.scy.android.tomatotaskdo.entity.User;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,11 @@ public class DbRequest {
         return user;
     }
 
+    public static List<User> findUsers(){
+        List<User> users = LitePal.findAll(User.class,true);
+        return users;
+    }
+
     public static int getCurrentUserTodayFocusTime(Context context, User user) {
         List<FocusTime> focusTimes = user.getFocusTimes();
         for (FocusTime ft:focusTimes) {
@@ -39,6 +45,15 @@ public class DbRequest {
             }
         }
         return 0;
+    }
+
+    public static int getCurrentUserFocusTime(Context context, User user) {
+        List<FocusTime> focusTimes = user.getFocusTimes();
+        int time = 0;
+        for (FocusTime ft:focusTimes) {
+            time += ft.getTime();
+        }
+        return time;
     }
 
     public static void saveHeaderImg(String uri, Context context) {
@@ -55,5 +70,26 @@ public class DbRequest {
     public static List<Task> getCurrentUserTasks(Context context, User user) {
         List<Task> tasks = user.getTasks();
         return tasks;
+    }
+
+    public static List<Task> getCurrentUserTodayUnFinishTasks(Context context, User user) {
+        List<Task> tasks = user.getTasks();
+        List<Task> tasks1 = new ArrayList<>();
+        for (Task task: tasks) {
+            if (task.getStartTime().equals(TimeUtil.formatTaskTime()) && task.getIsFinished().equals("未完成")) {
+                tasks1.add(task);
+            }
+        }
+        return tasks1;
+    }
+
+    public static Task getCurrentUserTodayUnFinishSelectTask(Context context, User user, String des) {
+        List<Task> tasks = getCurrentUserTodayUnFinishTasks(context, user);
+        for (Task task: tasks) {
+            if (task.gettDescription().equals(des)) {
+                return task;
+            }
+        }
+        return null;
     }
 }

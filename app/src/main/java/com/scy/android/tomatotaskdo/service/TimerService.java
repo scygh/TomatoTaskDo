@@ -21,6 +21,7 @@ import com.scy.android.tomatotaskdo.conpoment.utils.SpUtil;
 import com.scy.android.tomatotaskdo.conpoment.utils.TimeUtil;
 import com.scy.android.tomatotaskdo.entity.FocusTime;
 import com.scy.android.tomatotaskdo.entity.User;
+import com.scy.android.tomatotaskdo.request.Apis;
 import com.scy.android.tomatotaskdo.request.DbRequest;
 import com.scy.android.tomatotaskdo.view.activity.MainActivity;
 
@@ -39,7 +40,7 @@ public class TimerService extends Service {
 
     CountDownTimer timer;
     private String mainTimeText;
-    private int time,todayTimeText;
+    private int time, todayTimeText;
     private int focusTime;
     private LocalBroadcastManager mLocalBroadcastManager;
 
@@ -66,16 +67,20 @@ public class TimerService extends Service {
     }
 
     private void startCountDownTimer() {
-        timer = new CountDownTimer(25*1000*60, 1000) {
+        timer = new CountDownTimer(25 * 1000 * 60, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mainTimeText = TimeUtil.formatTime(millisUntilFinished);
-                time = Integer.parseInt(TimeUtil.formatMinuteTime(25*1000*60-millisUntilFinished));
-                focusTime = SpUtil.getCurrentFocusTime(TimerService.this ,ConstValues.FOCUS_TIME);
+                time = Integer.parseInt(TimeUtil.formatMinuteTime(25 * 1000 * 60 - millisUntilFinished));
+                if (!Apis.checkLogin(TimerService.this)) {
+                    focusTime = SpUtil.getCurrentFocusTime(TimerService.this, ConstValues.FOCUS_TIME);
+                } else {
+                    focusTime = DbRequest.getCurrentUserTodayFocusTime(TimerService.this, DbRequest.getCurrentUser(TimerService.this));
+                }
                 todayTimeText = time + focusTime;
                 Intent intent = new Intent(ConstValues.ACTION_TYPR_THREAD);
-                intent.putExtra("mainTimeText","" + mainTimeText);
-                intent.putExtra("todayTimeText","" + todayTimeText);
+                intent.putExtra("mainTimeText", "" + mainTimeText);
+                intent.putExtra("todayTimeText", "" + todayTimeText);
                 mLocalBroadcastManager.sendBroadcast(intent);
                 Log.d(TAG, "onTick: ");
             }
@@ -93,10 +98,10 @@ public class TimerService extends Service {
 
     public void saveAddViewData() {
         focusTime = focusTime + time;
-        if (checkLogin()) {
+        if (Apis.checkLogin(this)) {
             User user = DbRequest.getCurrentUser(this);
             List<FocusTime> focusTimes = user.getFocusTimes();
-            for (FocusTime ft:focusTimes) {
+            for (FocusTime ft : focusTimes) {
                 if (ft.getDate().equals(TimeUtil.formatFocusTime())) {
                     ft.setTime(focusTime);
                     ft.update(ft.getId());
@@ -117,18 +122,18 @@ public class TimerService extends Service {
     @TargetApi(Build.VERSION_CODES.O)
     public void setForegroundService() {
         Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         String channelName = getString(R.string.channel_name);
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel channel = new NotificationChannel("1", channelName, importance);
         channel.setDescription("专注时间倒计时服务");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"1");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1");
         builder.setSmallIcon(R.drawable.logo2)
                 .setContentTitle("Tomato")
                 .setContentText("Tomato正在记录你的学习时间")
                 .setContentIntent(pendingIntent)
                 .setOngoing(true);
-        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
         startForeground(1, builder.build());
     }
@@ -138,10 +143,5 @@ public class TimerService extends Service {
         super.onDestroy();
         timer.onFinish();
         timer.cancel();
-    }
-
-    public boolean checkLogin() {
-        Boolean isLogin = SpUtil.getIsLogin(this, ConstValues.LOGIN);
-        return isLogin;
     }
 }

@@ -13,7 +13,7 @@ import com.scy.android.tomatotaskdo.conpoment.utils.SpUtil;
 public class Apis {
 
     public static boolean checkLogin(Context context) {
-        Boolean isLogin = SpUtil.getIsLogin(context, ConstValues.LOGIN);
+        boolean isLogin = SpUtil.getIsLogin(context, ConstValues.LOGIN);
         return isLogin;
     }
 }

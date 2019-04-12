@@ -229,6 +229,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.ll_mine_setting:
                 startActivity(SettingsActivity.getIntent(mActivity));
+                mActivity.finish();
                 break;
             case R.id.header_img:
                 if (flag == 0) {

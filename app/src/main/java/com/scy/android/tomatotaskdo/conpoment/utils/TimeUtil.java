@@ -52,4 +52,15 @@ public class TimeUtil {
         return formatter.format(curDate);
     }
 
+    public static String formatMonth() {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM月");
+        Date curDate = new Date(System.currentTimeMillis());
+        return formatter.format(curDate);
+    }
+    public static String formatTomatoTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日");
+        Date curDate = new Date(System.currentTimeMillis());
+        return formatter.format(curDate);
+    }
+
 }

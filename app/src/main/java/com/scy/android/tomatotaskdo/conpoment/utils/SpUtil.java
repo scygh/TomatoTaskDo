@@ -52,7 +52,7 @@ public class SpUtil {
         return sp.getInt(key, 0);
     }
 
-    public static void setIsTiming(Context context, String key, Boolean value) {
+    public static void setIsTiming(Context context, String key, boolean value) {
         SharedPreferences sp = context.getSharedPreferences("ifv", Context.MODE_PRIVATE);
         sp.edit().putBoolean(key, value).apply();
     }

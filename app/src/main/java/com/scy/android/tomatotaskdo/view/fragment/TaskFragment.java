@@ -1,20 +1,20 @@
 package com.scy.android.tomatotaskdo.view.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.scy.android.tomatotaskdo.R;
+import com.scy.android.tomatotaskdo.conpoment.MyInterface.OnItemClickListener;
 import com.scy.android.tomatotaskdo.conpoment.constants.ConstValues;
 import com.scy.android.tomatotaskdo.conpoment.manager.MyLinearLayoutManager;
+import com.scy.android.tomatotaskdo.conpoment.utils.ToastHelper;
 import com.scy.android.tomatotaskdo.entity.Task;
 import com.scy.android.tomatotaskdo.entity.User;
 import com.scy.android.tomatotaskdo.request.Apis;
@@ -22,14 +22,18 @@ import com.scy.android.tomatotaskdo.request.DbRequest;
 import com.scy.android.tomatotaskdo.view.activity.AddTaskActivity;
 import com.scy.android.tomatotaskdo.view.adapter.TaskFragmentRvAdapter;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TaskFragment extends BaseFragment{
+public class TaskFragment extends BaseFragment {
     private static final String TAG = "TaskFragment";
 
     @BindView(R.id.task_recycler_view)
@@ -48,8 +52,18 @@ public class TaskFragment extends BaseFragment{
         MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(mActivity, false);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         taskRecyclerView.setLayoutManager(linearLayoutManager);
-        mTaskFragmentRvAdapter = new TaskFragmentRvAdapter(init(), mActivity);
+        mTaskFragmentRvAdapter = new TaskFragmentRvAdapter(
+                init(), mActivity);
         taskRecyclerView.setAdapter(mTaskFragmentRvAdapter);
+       mTaskFragmentRvAdapter.setItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.d(TAG, "onItemClick: " + position);
+                mActivity.startActivity(AddTaskActivity.getAddTaskAcivityIntent(mActivity, mTasks.get(position).gettDescription(),mTasks.get(position).getPriority()));
+                mActivity.finish();
+            }
+
+        });
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -70,6 +84,7 @@ public class TaskFragment extends BaseFragment{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                ToastHelper.showToast(mActivity, "滑动结束任务", Toast.LENGTH_SHORT);
                 mTaskFragmentRvAdapter.onItemDissmiss(viewHolder.getAdapterPosition());
             }
         });
@@ -78,35 +93,57 @@ public class TaskFragment extends BaseFragment{
         taskFb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(AddTaskActivity.getIntent(mActivity), ConstValues.ACTION_ADD);
+                startActivity(AddTaskActivity.getAddTaskAcivityIntent(mActivity));
+                mActivity.finish();
             }
         });
         return rootView;
     }
 
     public List<Task> init() {
-        if (Apis.checkLogin(mActivity)){
+        if (Apis.checkLogin(mActivity)) {
             currentUser = DbRequest.getCurrentUser(mActivity);
-            mTasks = DbRequest.getCurrentUserTasks(mActivity,currentUser);
+            mTasks = DbRequest.getCurrentUserTodayUnFinishTasks(mActivity, currentUser);
+            SortUtil<Task> sortUtil = new SortUtil<>();
+            mTasks = sortUtil.sort(mTasks, "priority", false);
         } else {
             mTasks = new ArrayList<>();
         }
         return mTasks;
     }
 
-    @Override
-    public void initData() {
-        super.initData();
-    }
+    public class SortUtil<T> {
+        //数组排序的方法
+        //传入list  传入排序字段 传入是否升序
+        public List<T> sort(List<T> list, final String sortField, final Boolean Ascending) {
 
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ConstValues.ACTION_ADD && resultCode == mActivity.RESULT_OK) {
-            init();
-            mTaskFragmentRvAdapter.notifyDataSetChanged();
+            Collections.sort(list, new Comparator<T>() {//排序
+                @Override
+                public int compare(T o1, T o2) {
+                    int retVal = 0;
+                    //首字母转大写
+                    String newStr = sortField.substring(0, 1).toUpperCase() + sortField.replaceFirst("\\w", "");
+                    String methodStr = "get" + newStr;
+                    try {
+                        Method method1 = ((T) o1).getClass().getMethod(methodStr, null);
+                        Method method2 = ((T) o2).getClass().getMethod(methodStr, null);
+                        retVal = method2.invoke(((T) o2), null).toString().compareTo(method1.invoke(((T) o1), null).toString()); // 倒序
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
+                    if (Ascending) {
+                        return 0 - retVal;
+                    } else {
+                        return retVal;
+                    }
+                }
+            });
+            return list;
         }
+
     }
 }
