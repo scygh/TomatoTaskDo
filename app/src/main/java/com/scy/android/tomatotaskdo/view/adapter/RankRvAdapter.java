@@ -1,6 +1,7 @@
 package com.scy.android.tomatotaskdo.view.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -81,6 +82,9 @@ public class RankRvAdapter extends RecyclerView.Adapter<RankRvAdapter.ViewHolder
         viewHolder.tvCount.setText(count + "");
         if (mUsers.get(i).getHeaderImageUri()!=null) {
             viewHolder.headerImg.setImageURI(Uri.parse(mUsers.get(i).getHeaderImageUri()));
+        }
+        if (count == 1) {
+            viewHolder.tvFocusTime.setTextColor(Color.parseColor("#FC4D52"));
         }
         viewHolder.tvName.setText(mUsers.get(i).getUsername());
         List<FocusTime> focusTimes = mUsers.get(i).getFocusTimes();

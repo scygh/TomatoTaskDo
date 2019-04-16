@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
 
     @BindView(R.id.signout_button)
@@ -25,18 +25,19 @@ public class SettingsActivity extends AppCompatActivity {
         return intent;
     }
 
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_setting;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        ButterKnife.bind(this);
+    protected void initViews() {
         signoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SpUtil.signOut(SettingsActivity.this);
-                finish();
                 startActivity(LoginActivity.getIntent(SettingsActivity.this));
+                finish();
             }
         });
     }

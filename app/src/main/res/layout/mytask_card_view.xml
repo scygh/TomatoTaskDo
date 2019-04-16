@@ -44,8 +44,8 @@
             android:singleLine="true"
             android:text="detaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetail"
             android:ellipsize="end"
-            android:textColor="#888888"
-            android:textSize="12sp" />
+            android:textColor="#000"
+            android:textSize="16sp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

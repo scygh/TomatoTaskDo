@@ -46,6 +46,7 @@
             app:roundedCornerRadius="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginTop="18dp"
             android:background="@drawable/fcs_icon_mine_head_login"
             android:layout_gravity="center_horizontal"
             />
@@ -56,7 +57,7 @@
             android:layout_gravity="center_horizontal"
             android:text="沈程阳占领了封面"
             android:textColor="@color/FFFFFF"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="45dp"
             />
     </FrameLayout>
     <android.support.v7.widget.RecyclerView

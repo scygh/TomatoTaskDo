@@ -30,15 +30,13 @@
     </FrameLayout>
 
     <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/view_card"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:elevation="10dp"
         android:layout_margin="5dp"
         android:orientation="vertical"
-        android:foreground = "?attr/selectableItemBackground"
+        android:foreground = "?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/FC4D52"
         app:cardCornerRadius="8dp">
 
@@ -124,15 +122,13 @@
         </FrameLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:elevation="8dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:orientation="vertical"
-        android:foreground = "?attr/selectableItemBackground"
+        android:foreground = "?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/FC4D52"
         app:cardCornerRadius="8dp">
 
@@ -211,14 +207,12 @@
         </FrameLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:elevation="8dp"
         android:layout_margin="5dp"
         android:orientation="vertical"
-        android:foreground = "?attr/selectableItemBackground"
+        android:foreground = "?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/FC4D52"
         app:cardCornerRadius="8dp">
 

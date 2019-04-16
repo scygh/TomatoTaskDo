@@ -28,7 +28,7 @@ public class LineView extends View {
 
     private static final String TAG = "LineView";
     //    private int[] yLables = {5, 8, 11, 14, 17, 20}; //固定y轴数字
-    private int[] yLables = {1, 6, 11, 16, 21, 26}; //固定y轴数字
+    private int[] yLables = {0, 6, 12, 18, 24, 30}; //固定y轴数字
     private Context mContext;
     private List<String> xValues = new ArrayList<>();
     private List<Integer> yValues = new ArrayList<>();

@@ -51,10 +51,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "1797484636@qq.com:741963sc"
-    };
+public class LoginActivity extends BaseActivity {
 
     private UserLoginTask mAuthTask = null;
 
@@ -69,10 +66,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        // Set up the login form.
+    protected int getContentView() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initViews() {
         mEmailView = findViewById(R.id.email);
         mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -96,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
     }
-
 
     private void attemptLogin() {
         if (mAuthTask != null) {
@@ -191,8 +189,8 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             if (success) {
                 SpUtil.setIsLogin(LoginActivity.this,ConstValues.LOGIN, true);
-                finish();
                 startActivity(MainActivity.getIntent(LoginActivity.this));
+                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

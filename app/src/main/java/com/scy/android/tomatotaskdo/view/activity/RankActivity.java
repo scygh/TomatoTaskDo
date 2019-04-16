@@ -83,17 +83,6 @@ public class RankActivity extends BaseActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        mRankRvAdapter.setItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                /*User user = sortUsers.get(position);
-                int dz = user.getDz();
-                dz = dz + 1;
-                user.setDz(dz);
-                user.update(user.getId());
-                mRankRvAdapter.notifyItemChanged(position);*/
-            }
-        });
 
         rankIvShare.setOnClickListener(new View.OnClickListener() {
             @Override

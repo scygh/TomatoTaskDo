@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:orientation="horizontal"
     android:background="@color/FFFFFF"
-    android:gravity="center"
     >
     <TextView
         android:id="@+id/rank_item_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
         android:text="1"
         android:textSize="20dp"
         android:textStyle="bold"/>
@@ -20,16 +20,18 @@
         android:id="@+id/rank_item_header_img"
         app:roundAsCircle="true"
         app:roundedCornerRadius="20dp"
-        android:layout_margin="20dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
         android:background="@drawable/fcs_icon_mine_head_login"
         />
     <TextView
         android:id="@+id/rank_item_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="80dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="80dp"
         android:text="沈程阳"
         android:textSize="18dp"
         />
@@ -38,14 +40,20 @@
         android:id="@+id/rank_item_focustime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="60dp"
         android:text="21"
         android:textSize="25dp"
         android:textStyle="bold"/>
 
     <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
         android:gravity="center">
 
         <TextView
@@ -64,4 +72,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
