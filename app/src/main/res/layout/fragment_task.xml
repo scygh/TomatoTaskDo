@@ -12,12 +12,13 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/FFFFFF"
             >
             <include layout="@layout/header"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="你今天的任务"
+                android:text="Today"
                 android:textStyle="bold"
                 android:textColor="@color/FFFFFF"
                 android:layout_gravity="center_horizontal"
@@ -37,7 +38,7 @@
         android:id="@+id/task_fb"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_margin="16dp"
+        android:layout_margin="12dp"
         android:layout_gravity="center_vertical|right"
         android:src="@drawable/add_task"
         android:elevation="8dp"

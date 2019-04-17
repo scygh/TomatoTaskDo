@@ -56,7 +56,7 @@ public class LineView extends View {
     private GestureDetector gestureDetector; //滑动手势
     private int firstMinX; // 移动时第一个点的最小x值
     private int firstMaxX; //移动时第一个点的最大x值
-    private int backGroundColor = Color.parseColor("#FC4D52"); // view的背景颜色
+    private int backGroundColor = Color.parseColor("#F15958"); // view的背景颜色
     private Paint paintWhite, paintBlue, paintRed, paintBack, paintText, dashPaint;
 
 
@@ -86,7 +86,7 @@ public class LineView extends View {
         paintBlue.setStyle(Paint.Style.STROKE);
 
         paintBack = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintBack.setColor(Color.parseColor("#FC4D52"));
+        paintBack.setColor(Color.parseColor("#F15958"));
         paintBack.setStyle(Paint.Style.FILL);
 
         paintRed = new Paint(Paint.ANTI_ALIAS_FLAG);

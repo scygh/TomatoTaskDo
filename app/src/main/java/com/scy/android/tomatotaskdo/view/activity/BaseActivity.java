@@ -1,9 +1,13 @@
 package com.scy.android.tomatotaskdo.view.activity;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
 
 import com.scy.android.tomatotaskdo.conpoment.utils.ToastHelper;
 
@@ -40,6 +44,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 
 }

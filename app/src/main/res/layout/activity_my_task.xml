@@ -21,8 +21,8 @@
             />
         <ImageView
             android:id="@+id/mytask_date"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:scaleType="centerInside"
             android:layout_gravity="right|bottom"
             android:layout_margin="10dp"
@@ -32,7 +32,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mytask_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
 
     </android.support.v7.widget.RecyclerView>
 

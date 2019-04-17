@@ -54,6 +54,12 @@ public class MyTaskActivity extends BaseActivity {
         todayTask = DbRequest.getCurrentUserTodayTasks(this,DbRequest.getCurrentUser(this));
         mTaskFragmentRvAdapter = new TaskRecordRvAdapter(todayTask ,this);
         mytaskRv.setAdapter(mTaskFragmentRvAdapter);
+        mTaskFragmentRvAdapter.setOnMyTaskItemClickListener(new TaskRecordRvAdapter.OnMyTaskItemClickListener() {
+            @Override
+            public void onMyTaskItemClickListener(int position) {
+                startActivity(TaskDdetailActivity.getAddTaskAcivityIntent(MyTaskActivity.this, todayTask.get(position).gettDescription(),todayTask.get(position).getPriority()));
+            }
+        });
         datePickerFragment = DatePickerFragment.newInstance(new Date());
         mytaskDate.setOnClickListener(new View.OnClickListener() {
             @Override

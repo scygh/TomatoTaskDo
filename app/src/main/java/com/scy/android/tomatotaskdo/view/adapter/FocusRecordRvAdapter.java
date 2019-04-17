@@ -32,11 +32,10 @@ public class FocusRecordRvAdapter extends RecyclerView.Adapter<FocusRecordRvAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvDetail,tvPriority,tvCount;
+        TextView tvPriority,tvCount;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvCount = itemView.findViewById(R.id.focus_counttitle);
-            tvDetail = itemView.findViewById(R.id.focus_detail);
             tvPriority = itemView.findViewById(R.id.focus_priority_size);
         }
 
@@ -52,8 +51,7 @@ public class FocusRecordRvAdapter extends RecyclerView.Adapter<FocusRecordRvAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            viewHolder.tvCount.setText(mFocusTimes.get(i).getDate().substring(0,5));
-            viewHolder.tvDetail.setText(mFocusTimes.get(i).getTime() + "分钟");
+            viewHolder.tvCount.setText(mFocusTimes.get(i).getTime() + "分钟");
             viewHolder.tvPriority.setText(mFocusTimes.get(i).getDate().substring(6));
 
     }

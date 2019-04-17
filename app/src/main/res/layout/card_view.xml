@@ -65,6 +65,8 @@
             <TextView
                 android:id="@+id/text_priority_size"
                 android:layout_width="20dp"
+                android:singleLine="true"
+                android:maxWidth="20dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 

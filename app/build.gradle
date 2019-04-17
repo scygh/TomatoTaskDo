@@ -18,6 +18,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 MobSDK {
@@ -36,10 +41,17 @@ MobSDK {
                 appId "wxa281f3d85f096def"
                 appSecret "5910b7f1c4611a7f158550c341d41629"
             }
-            QQ {
-                appId "100371282"
-                appKey "aed9b0303e3ed1e27bae87c33761161d"
-                shareByAppClient true
+            WechatMoments {
+                appId "wxa281f3d85f096def"
+                appSecret "5910b7f1c4611a7f158550c341d41629"
+                bypassApproval false
+                enable true
+            }
+            WechatFavorite {
+                appId "wxa281f3d85f096def"
+                appSecret "5910b7f1c4611a7f158550c341d41629"
+                bypassApproval false
+                enable true
             }
 
         }
@@ -81,4 +93,5 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.3.0'
     implementation 'com.facebook.fresco:fresco:1.13.0'
     implementation 'cn.bingoogolapple:bga-swipeitemlayout:1.0.4'
+    implementation 'com.zaaach:citypicker:1.1'
 }

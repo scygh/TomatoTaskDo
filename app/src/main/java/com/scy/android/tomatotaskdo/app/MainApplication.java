@@ -3,6 +3,8 @@ package com.scy.android.tomatotaskdo.app;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.mob.MobSDK;
 import com.scy.android.tomatotaskdo.R;
 
@@ -29,6 +31,7 @@ public class MainApplication extends Application {
         LitePal.initialize(this);
         Fresco.initialize(this);
         MobSDK.init(this);
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5cb58ad8");
 
     }
 }

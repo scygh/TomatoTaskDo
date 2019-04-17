@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".view.activity.SettingsActivity">
+    tools:context=".view.activity.SettingsActivity"
+    android:background="@color/FFFFFF">
 
     <include layout="@layout/header"/>
     <ScrollView
