@@ -68,6 +68,11 @@ public class LoadButton extends View implements Animator.AnimatorListener {
         void onClick(boolean isSuccessed);
         void starttime(boolean start);
     }
+
+    public void setCircleSweep(float circleSweep) {
+        this.circleSweep = circleSweep;
+        invaidateSelft();
+    }
     //状态枚举
     enum State {
         INITIAL,
@@ -431,4 +436,8 @@ public class LoadButton extends View implements Animator.AnimatorListener {
             loadAnimator = null;
         }
     }
+
+
+
+
 }
