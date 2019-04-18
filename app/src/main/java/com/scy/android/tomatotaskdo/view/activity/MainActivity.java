@@ -8,10 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -19,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,9 +26,7 @@ import com.next.easynavigation.view.EasyNavigationBar;
 import com.scy.android.tomatotaskdo.R;
 import com.scy.android.tomatotaskdo.conpoment.constants.ConstValues;
 import com.scy.android.tomatotaskdo.conpoment.utils.SpUtil;
-import com.scy.android.tomatotaskdo.conpoment.utils.TimeUtil;
 import com.scy.android.tomatotaskdo.conpoment.utils.ToastHelper;
-import com.scy.android.tomatotaskdo.entity.FocusTime;
 import com.scy.android.tomatotaskdo.entity.User;
 import com.scy.android.tomatotaskdo.request.Apis;
 import com.scy.android.tomatotaskdo.request.DbRequest;
@@ -40,31 +34,25 @@ import com.scy.android.tomatotaskdo.service.TimerService;
 import com.scy.android.tomatotaskdo.view.dialog.AddViewDialog;
 import com.scy.android.tomatotaskdo.view.fragment.MineFragment;
 import com.scy.android.tomatotaskdo.view.fragment.TaskFragment;
-
-import org.litepal.LitePal;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity{
     private static final String TAG = "MainActivity";
-
     @BindView(R.id.main_navigationBar)
     EasyNavigationBar mainNavigationBar;
     ImageView okIv;
+    //EasyNavigationbar 的资源数据
     private String[] tabText = {"任务", "开始专注", "我的"};
     private int[] normalIcon = {R.drawable.task, R.drawable.times, R.drawable.mine};
     private int[] selectedIcon = {R.drawable.taskselected, R.drawable.timeselected, R.drawable.mineselected};
     private List<Fragment> mFragments = new ArrayList<>();
     public static LoadButton mLoadButton;
-    private Button mBtnReset;
     private static TextView mainTime, todayTime;
     private int focusTime;
     private User currentUser;
-    private  Handler mHandler = new Handler();
+    private Handler mHandler = new Handler();
     private MyBroadcastReceiver mMyBroadcastReceiver;
     private LocalBroadcastManager mLocalBroadcastManager;
     private TaskFragment mTaskFragment = new TaskFragment();
@@ -82,15 +70,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initViews() {
+        //初始化广播接受者，动态注册广播
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         mMyBroadcastReceiver = new MyBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConstValues.ACTION_TYPR_THREAD);
-        mLocalBroadcastManager.registerReceiver(mMyBroadcastReceiver,intentFilter);
+        mLocalBroadcastManager.registerReceiver(mMyBroadcastReceiver, intentFilter);
         //初始登录判断
         boolean isStartMain = SpUtil.getIsFirstVisit(this, ConstValues.START_MAIN);
         if (isStartMain) {
+            //如果已经登陆过了，继续执行
         } else {
+            //未登录过，跳转到导航页
             startActivity(GuideActivity.getIntent(this));
             finish();
         }
@@ -112,9 +103,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public boolean onTabClickEvent(View view, int i) {
                         if (i == 1) {
+                            //如果点击第二个，就显示番茄时间界面
                             showView();
                             if (SpUtil.getIsTiming(MainActivity.this, ConstValues.ISTIMING)) {
-                               mLoadButton.isTiming();
+                                //如果判断是已在计时状态，刚刚打开，按钮也会开始计时了的。
+                                mLoadButton.isTiming();
                             }
                         } else if (i == 2) {
                             if (!Apis.checkLogin(MainActivity.this)) {
@@ -127,32 +120,54 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 })
                 .build();
+        //添加开始专注番茄时间界面
         mainNavigationBar.setAddViewLayout(createTaskView());
-
+        //选中任务界面
         mainNavigationBar.selectTab(0);
     }
 
+    /**
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/17
+     * 创建开始专注界面
+     * 初始化设置监听
+    */
     private View createTaskView() {
+        //拿到界面，控件。
         ViewGroup view = (ViewGroup) View.inflate(MainActivity.this, R.layout.layout_add_view, null);
         okIv = view.findViewById(R.id.ok_iv);
         mLoadButton = view.findViewById(R.id.btn_status);
-        mBtnReset = view.findViewById(R.id.btn_reset);
         mainTime = view.findViewById(R.id.add_view_maintime);
         todayTime = view.findViewById(R.id.add_view_todaytime);
-
+        //点击关闭界面动画
+        okIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeAnimation();
+            }
+        });
+        //接口回调
         mLoadButton.setListenner(new LoadButton.LoadListenner() {
             @Override
             public void onClick(boolean isSuccessed) {
                 if (isSuccessed) {
-                    //成功状态点击事件
+                    //成功状态点击事件，跳出对话框
                     AddViewDialog.showDialog(MainActivity.this);
                 }
             }
 
-            @Override
-            public void needLoading() {
-            }
-
+            //如果可以，那就开启服务/暂停服务。
+            /**
+            *@Params :[
+            ４.４　KitKat  19
+            5.0　Lollipop 21
+            7.0　Nougat  24
+            8.0  O 26
+            9.0  P 28]
+            *@Author :scy
+            *@Date :2019/4/18
+            */
             @Override
             public void starttime(boolean start) {
                 Intent intent = new Intent(MainActivity.this, TimerService.class);
@@ -162,40 +177,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     } else {
                         startService(intent);
                     }
-                    SpUtil.setIsTiming(MainActivity.this ,ConstValues.ISTIMING, true);
+                    SpUtil.setIsTiming(MainActivity.this, ConstValues.ISTIMING, true);
 
                 } else {
                     stopService(intent);
                     ToastHelper.showToast(MainActivity.this, "你开小差了，请重新开始", Toast.LENGTH_SHORT);
-                    SpUtil.setIsTiming(MainActivity.this ,ConstValues.ISTIMING, false);
+                    SpUtil.setIsTiming(MainActivity.this, ConstValues.ISTIMING, false);
                     updateUI();
                 }
-            }
-        });
-        okIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeAnimation();
             }
         });
         return view;
     }
 
+
+    /**
+     * 重置主时间和按钮
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/18
+    */
     public static void updateUI() {
         mLoadButton.reset();
         mainTime.setText("25:00");
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_reset:
-                mLoadButton.reset();
-                break;
-
-            default:
-                break;
-        }
     }
 
     private void showView() {
@@ -203,12 +207,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
+                //属性动画旋转360度
                 okIv.animate().rotation(360).setDuration(500);
             }
         });
         initAddViewData();
     }
 
+    /**
+     * 打开专注页的动画
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/18
+    */
     private void startAnimation() {
         mHandler.post(new Runnable() {
             @Override
@@ -217,6 +228,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         int x = NavigationUtil.getScreenWidth(MainActivity.this) / 2;
                         int y = (int) (NavigationUtil.getScreenHeith(MainActivity.this) - NavigationUtil.dip2px(MainActivity.this, 25));
+                        //android5.0之后揭露动画
                         Animator animator = ViewAnimationUtils.createCircularReveal(mainNavigationBar.getAddViewLayout(), x, y, 0, mainNavigationBar.getAddViewLayout().getHeight());
                         animator.addListener(new Animator.AnimatorListener() {
                             @Override
@@ -249,18 +261,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    public  void closeAnimation() {
+
+    /**
+     * 关闭专注页的动画
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/18
+    */
+    public void closeAnimation() {
+        //勾旋转
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 okIv.animate().rotation(0).setDuration(400);
             }
         });
-
         try {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 int x = NavigationUtil.getScreenWidth(this) / 2;
-                int y = (NavigationUtil.getScreenHeith(this) - NavigationUtil.dip2px(this, 25));
+                int y = 0;
                 Animator animator = ViewAnimationUtils.createCircularReveal(mainNavigationBar.getAddViewLayout(), x,
                         y, mainNavigationBar.getAddViewLayout().getHeight(), 0);
                 animator.addListener(new AnimatorListenerAdapter() {
@@ -283,18 +302,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    public void initAddViewData () {
+    /**
+     * 初始化界面的数据
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/18
+    */
+    public void initAddViewData() {
         if (Apis.checkLogin(this)) {
             currentUser = DbRequest.getCurrentUser(this);
             focusTime = DbRequest.getCurrentUserTodayFocusTime(this, currentUser);
-            todayTime.setText(""+ focusTime);
+            todayTime.setText("" + focusTime);
         } else {
             focusTime = SpUtil.getCurrentFocusTime(MainActivity.this, ConstValues.FOCUS_TIME);
-            Log.d(TAG, "initAddViewData: "+ focusTime);
-            todayTime.setText(""+ focusTime);
+            Log.d(TAG, "initAddViewData: " + focusTime);
+            todayTime.setText("" + focusTime);
         }
     }
 
+    //广播接收者，用于刷新
     public class MyBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -309,16 +335,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mLocalBroadcastManager.unregisterReceiver(mMyBroadcastReceiver);
     }
 
-    private long firstTime=0;
+
+    /**
+     * 按两次退出
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/18
+    */
+    private long firstTime = 0;
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        switch(keyCode){
+        switch (keyCode) {
             case KeyEvent.KEYCODE_BACK://点击返回键
                 long secondTime = System.currentTimeMillis();//以毫秒为单位
-                if(secondTime -firstTime>2000){
+                if (secondTime - firstTime > 2000) {
                     Toast.makeText(this, "再按一次返回退出程序", Toast.LENGTH_SHORT).show();
-                    firstTime=secondTime;
-                }else{
+                    firstTime = secondTime;
+                } else {
                     finish();
                     System.exit(0);
                 }

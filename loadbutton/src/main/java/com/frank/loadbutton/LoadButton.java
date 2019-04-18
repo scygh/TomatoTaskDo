@@ -17,83 +17,58 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-/**
- * Created by frank on 2017/5/16.
- */
-
 public class LoadButton extends View implements Animator.AnimatorListener {
     private static final String TAG = "LoadButton";
-
     private final int mStrokeColor;
     private final int mTextColor;
     private final float mProgressWidth;
     private  OnClickListener mListenner;
     private Paint mPaint;
-
+    //默认字体和半径
     private int mDefaultWidth;
     private int mDefaultRadiu;
-
     private int rectWidth;
-
     private TextPaint mTextPaint;
-
     private int mDefaultTextSize;
-
     private int mTopBottomPadding;
     private int mLeftRightPadding;
-
     private String mText;
     private int mTextWidth;
     private int mTextSize;
     private int mRadiu;
-
-
     private Path mPath;
-
     private RectF leftRect;
     private RectF rightRect;
     private RectF contentRect;
     private RectF progressRect;
-
     private int left;
     private int right;
     private int top;
     private int bottom;
-
     private boolean isUnfold;
-
     private int mBackgroundColor;
-
     private State mCurrentState;
     private float circleSweep;
     private ObjectAnimator loadAnimator;
     private ObjectAnimator shrinkAnim;
-
     private Drawable mSuccessedDrawable;
     private Drawable mErrorDrawable;
     private Drawable mPauseDrawable;
-
     private boolean progressReverse = true;
     private int mProgressSecondColor;
     private int mProgressColor;
     private int mProgressStartAngel;
 
-    public LoadListenner getListenner() {
-        return mLoadListenner;
-    }
-
+    //回调接口
+    LoadListenner mLoadListenner;
     public void setListenner(LoadListenner listenner) {
         this.mLoadListenner = listenner;
     }
-
-    LoadListenner mLoadListenner;
-
-    public void setCircleSweep(float circleSweep) {
-        this.circleSweep = circleSweep;
-        invaidateSelft();
+    public interface LoadListenner {
+        void onClick(boolean isSuccessed);
+        void starttime(boolean start);
     }
-
-
+    //状态枚举
     enum State {
         INITIAL,
         FODDING,
@@ -103,7 +78,7 @@ public class LoadButton extends View implements Animator.AnimatorListener {
         LOADDING_PAUSE
     }
 
-
+    //三个构造器初始化
     public LoadButton(Context context) {
         this(context,null);
     }
@@ -114,11 +89,11 @@ public class LoadButton extends View implements Animator.AnimatorListener {
 
     public LoadButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        //获取xml的属性
         mDefaultRadiu = 40;
-        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.LoadButton);
         mDefaultTextSize = 24;
-        mTextSize = typedArray.getDimensionPixelSize(R.styleable.LoadButton_android_textSize,
-                mDefaultTextSize);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.LoadButton);
+        mTextSize = typedArray.getDimensionPixelSize(R.styleable.LoadButton_android_textSize, mDefaultTextSize);
         mStrokeColor = typedArray.getColor(R.styleable.LoadButton_stroke_color, Color.RED);
         mTextColor = typedArray.getColor(R.styleable.LoadButton_content_color, Color.WHITE);
         mText = typedArray.getString(R.styleable.LoadButton_android_text);
@@ -129,27 +104,26 @@ public class LoadButton extends View implements Animator.AnimatorListener {
         mProgressColor = typedArray.getColor(R.styleable.LoadButton_progressColor,Color.WHITE);
         mProgressSecondColor = typedArray.getColor(R.styleable.LoadButton_progressSecondColor,Color.parseColor("#c3c3c3"));
         mProgressWidth = typedArray.getDimensionPixelOffset(R.styleable.LoadButton_progressedWidth,2);
-
         mSuccessedDrawable = typedArray.getDrawable(R.styleable.LoadButton_loadSuccessDrawable);
         mErrorDrawable = typedArray.getDrawable(R.styleable.LoadButton_loadErrorDrawable);
         mPauseDrawable = typedArray.getDrawable(R.styleable.LoadButton_loadPauseDrawable);
+        //程序在运行时维护了一个 TypedArray的池，程序调用时，会向该池中请求一个实例，用完之后，调用 recycle() 方法来释放该实例，从而使其可被其他模块复用。
         typedArray.recycle();
-
+        //progress画笔对象
         mPaint = new Paint();
+        //chu锯齿
         mPaint.setAntiAlias(true);
         mPaint.setColor(mStrokeColor);
+        //空心
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mProgressWidth);
-
         mDefaultWidth = 200;
-
-
+        //字体画笔
         mTextPaint = new TextPaint();
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
         mTextPaint.setTextSize(mTextSize);
-
-
+        //中间矩形宽度
         rectWidth = mDefaultWidth - mDefaultRadiu * 2;
 
         leftRect = new RectF();
@@ -200,11 +174,22 @@ public class LoadButton extends View implements Animator.AnimatorListener {
 
     }
 
+    /**
+     * 再次进入界面，如果在计时，按钮自动伸缩
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/18
+    */
     public void isTiming() {
         shringk();
     }
 
-
+    /**
+     * 重置
+    *@Params :
+    *@Author :scy
+    *@Date :2019/4/18
+    */
     public void reset(){
         mCurrentState = State.INITIAL;
         rectWidth = getWidth() - mRadiu * 2;
@@ -446,15 +431,4 @@ public class LoadButton extends View implements Animator.AnimatorListener {
             loadAnimator = null;
         }
     }
-
-    public interface LoadListenner {
-
-        void onClick(boolean isSuccessed);
-
-        void needLoading();
-
-        void starttime(boolean start);
-    }
-
-
 }

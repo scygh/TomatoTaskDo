@@ -24,9 +24,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
+        //设置沉浸式导航栏
         UltimateBar ultimateBar =new UltimateBar(this);
         ultimateBar.setImmersionBar();
         ButterKnife.bind(this);
+        //拿到数据库对象
         db = LitePal.getDatabase();
         initViews();
     }

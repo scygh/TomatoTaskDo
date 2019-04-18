@@ -9,18 +9,20 @@
         android:id="@+id/guide_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"></android.support.v4.view.ViewPager>
+        android:layout_marginBottom="80dp">
+
+    </android.support.v4.view.ViewPager>
 
     <Button
         android:id="@+id/guide_button_starttoexperience"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:gravity="center"
-        android:paddingBottom="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="80dp"
         android:background="@drawable/guide_btn_bg"
+        android:gravity="center"
+        android:paddingBottom="10dp"
         android:text="开始体验"
         android:textColor="@color/colorPrimary"
         android:textSize="12sp"

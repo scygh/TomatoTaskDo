@@ -58,7 +58,7 @@ public class RankActivity extends BaseActivity {
     @Override
     protected void initViews() {
         user = DbRequest.getCurrentUser(this);
-        MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(this, false);
+        MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(this, true);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rankRv.setLayoutManager(linearLayoutManager);
         rankRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

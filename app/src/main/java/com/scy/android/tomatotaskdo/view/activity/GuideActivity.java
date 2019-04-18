@@ -2,12 +2,8 @@ package com.scy.android.tomatotaskdo.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +18,6 @@ import com.scy.android.tomatotaskdo.view.adapter.GuideAdapter;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class GuideActivity extends BaseActivity {
 
@@ -38,7 +33,7 @@ public class GuideActivity extends BaseActivity {
     private int[] imageDrawable = {R.drawable.self_guide_01, R.drawable.self_guide_02, R.drawable.self_guide_03};
     private ArrayList<ImageView> mImageViews;
 
-    public static Intent getIntent(Context context){
+    public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, GuideActivity.class);
         return intent;
     }
@@ -70,8 +65,8 @@ public class GuideActivity extends BaseActivity {
         guideViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
+                //拿到移动的距离，设置leftMargin.
                 int distance = (int) (d * v + 0.5f + i * d);
-
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) pointSelected.getLayoutParams();
                 params.leftMargin = distance;
                 pointSelected.setLayoutParams(params);
@@ -79,6 +74,7 @@ public class GuideActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int i) {
+                //当选中的页面是第三个页面的时候，显示跳转按钮。
                 if (i == mImageViews.size() - 1) {
                     guideButtonStarttoexperience.setVisibility(View.VISIBLE);
                 } else {
@@ -93,6 +89,7 @@ public class GuideActivity extends BaseActivity {
         });
 
 
+        //onCreate中无法获得组件的位置，onResume才能
         pointSelected.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -104,6 +101,7 @@ public class GuideActivity extends BaseActivity {
         guideButtonStarttoexperience.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //保存登陆状态
                 SpUtil.setIsFirstVisit(GuideActivity.this, ConstValues.START_MAIN, true);
                 startActivity(MainActivity.getIntent(GuideActivity.this));
                 finish();

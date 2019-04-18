@@ -13,21 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:background="#ccc">
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/focus_counttitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:background="#eceff1"
             android:layout_margin="10dp"
-            android:textColor="#000000"
+            android:textColor="#FFF"
             android:textSize="16sp" />
         <TextView
             android:id="@+id/focus_priority_size"
             android:layout_width="wrap_content"
-            android:textColor="#888888"
+            android:textColor="#FFF"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
